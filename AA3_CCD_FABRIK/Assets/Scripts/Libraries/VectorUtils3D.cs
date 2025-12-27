@@ -146,6 +146,7 @@ public class VectorUtils3D
         return System.MathF.Sqrt(dx * dx + dy * dy + dz * dz);
     }
 
+
     public string ToString()
     {
         return "(" + x + ", " + y + ", " + z + ")";
