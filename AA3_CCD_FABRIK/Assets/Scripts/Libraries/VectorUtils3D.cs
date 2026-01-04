@@ -123,7 +123,7 @@ public class VectorUtils3D
     /// <param name="a"></param>
     /// <param name="t"></param>
     /// <returns></returns>
-    public VectorUtils3D LERP(VectorUtils3D a,  float t)
+    public static VectorUtils3D LERP(VectorUtils3D a, VectorUtils3D b,  float t)
     {
         if(t < 0 || t > 1)
         {
@@ -131,9 +131,9 @@ public class VectorUtils3D
             return new VectorUtils3D();
         }
 
-        float newX = (1 - t) * x + t * a.x;
-        float newY = (1 - t) * y + t * a.y;
-        float newZ = (1 - t) * z + t * a.z;
+        float newX = (1 - t) * a.x + t * b.x;
+        float newY = (1 - t) * a.y + t * b.y;
+        float newZ = (1 - t) * a.z + t * b.z;
 
         return new VectorUtils3D(newX, newY, newZ);
     }

@@ -904,6 +904,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1942622512336731751, guid: 04de96e7503b6fd42b5be1c5049fb817, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2854445828646609598, guid: 04de96e7503b6fd42b5be1c5049fb817, type: 3}
       propertyPath: m_Name
       value: ButtonsPlatform
