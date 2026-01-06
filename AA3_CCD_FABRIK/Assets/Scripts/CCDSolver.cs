@@ -8,7 +8,7 @@ public class CCDSolver : MonoBehaviour
     public Transform rootObject;      
     public Transform targetObject;    
     public List<Transform> boneTransforms = new List<Transform>(); 
-    // El último elemento de la lista se considera el que tiene el "End Effector"
+    // El último elemento de la lista es el End Effector
 
     [Header("Parámetros (Ajustables por Jugador)")]
     [Range(1, 50)]
@@ -33,13 +33,13 @@ public class CCDSolver : MonoBehaviour
 
     void Update()
     {
-        // Actualizar la base
+        // Actualizar la base del brazo
         if (virtualBones.Count > 0 && rootObject != null)
         {
             virtualBones[0].position = VectorUtils3D.ToVectorUtils3D(rootObject.position);
         }
 
-        // Ejecutar algoritmo CCD
+        //Hacer el CCD
         SolveCCD();
 
         
@@ -141,8 +141,8 @@ public class CCDSolver : MonoBehaviour
                     // Crear Cuaternión Delta
                     QuaternionUtils deltaRot = qUtils.AngleToQuaternion(axis, angle);
 
-                    // Aplicar Rotación: newRot = Delta * Actual
-                    // Al ser coordenadas globales, multiplicamos por la izquierda.
+                    // Aplicar Rotacion: newRot = Delta * Actual
+                   
                     deltaRot.Multiply(pivotBone.orientation);
                     pivotBone.orientation = deltaRot; // Actualizamos el virtualBone
 
@@ -150,14 +150,13 @@ public class CCDSolver : MonoBehaviour
             }
         }
 
-        // Una última pasada de FK para asegurar que las posiciones finales son coherentes con las rotaciones
+        // pasada de FK para asegurar que las posiciones finales son coherentes con las rotaciones
         UpdateForwardKinematics();
     }
 
     /// <summary>
-    /// Cinemática Directa (FK): Calcula las posiciones (x,y,z) de todos los huesos
-    /// basándose en la posición del padre, la rotación del padre y la longitud del hueso.
-    /// Esto reemplaza la jerarquía de Unity.
+    /// Cinemática Directa (FK): Calcula las posiciones de todos los huesos
+    /// me baso en la posición del padre, la rotación del padre y la longitud del hueso.
     /// </summary>
     private void UpdateForwardKinematics()
     {
@@ -166,28 +165,27 @@ public class CCDSolver : MonoBehaviour
 
     private void UpdateForwardKinematicsFrom(int startIndex)
     {
-        // Si empezamos desde 0, aseguramos que la base está en su sitio
+        
         if (startIndex == 0 && rootObject != null)
         {
             virtualBones[0].position = VectorUtils3D.ToVectorUtils3D(rootObject.position);
         }
 
-        // Recorremos hacia adelante aplicando: Pos_Hijo = Pos_Padre + (Rot_Padre * Vect_Long)
+        // hacia adelante aplicando: Pos_Hijo = Pos_Padre + (Rot_Padre * Vect_Long)
         for (int i = startIndex; i < virtualBones.Count - 1; i++)
         {
             VirtualBone current = virtualBones[i];
             VirtualBone next = virtualBones[i + 1];
 
-            // Para simplificar, usamos la lógica de que la rotación actual apunta hacia el siguiente hijo.
+            // uso la logica de que la rotación actual apunta hacia el siguiente hijo.
 
-            //Tomamos un vector (0,0,1) o (0,1,0), lo rotamos por la orientación y escalamos.
-            // Asumiremos que el eje principal es Forward (0,0,1).
+            //Tomamos un vector (0,0,1), lo rotamos por la orientación y escalamos.
             
             VectorUtils3D localDir = new VectorUtils3D(0, 0, current.length); // Asumiendo eje Z (Forward)
             
             VectorUtils3D rotatedOffset = current.orientation.RotateVector(localDir);
 
-            // Posición siguiente = Pos Actual + Offset Rotado
+            // Posicion siguiente = Pos Actual + Offset Rotado
             next.position = current.position + rotatedOffset;
         }
     }
