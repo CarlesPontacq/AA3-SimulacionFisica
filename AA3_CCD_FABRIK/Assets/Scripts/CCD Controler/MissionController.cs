@@ -68,7 +68,7 @@ public class MissionController : MonoBehaviour
         // Evitamos que t sea mayor que 1 para que no se pase
         if (t > 1.0f) t = 1.0f;
 
-        VectorUtils3D smoothedPos = currentPosUtils.LERP(desiredPosUtils, t);
+        VectorUtils3D smoothedPos = VectorUtils3D.LERP(currentPosUtils, desiredPosUtils, t);
 
         // 4. Aplicar el resultado al objeto de Unity
         ikTarget.position = new Vector3(smoothedPos.x, smoothedPos.y, smoothedPos.z);
