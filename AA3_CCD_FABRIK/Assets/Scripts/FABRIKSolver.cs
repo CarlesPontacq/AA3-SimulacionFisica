@@ -137,6 +137,11 @@ public class FABRIKSolver : MonoBehaviour
         positionOffset = posOffset;
     }
 
+    public void SetSmoothSpeed(float newSpeed)
+    {
+        smoothSpeed = newSpeed;
+    }
+
     public void UpdateRootJoint(VectorUtils3D playerPos, QuaternionUtils playerRot)
     {
         VectorUtils3D rotatedOffset = playerRot.RotateVector(positionOffset);
@@ -149,5 +154,10 @@ public class FABRIKSolver : MonoBehaviour
     {
         targetTransform = newTarget;
         UpdateTargetPosition();
+    }
+
+    public Transform GetTarget()
+    {
+        return targetTransform;
     }
 }
