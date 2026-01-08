@@ -467,6 +467,32 @@ namespace QuaternionUtility
             return result;
         }
 
+        /// <summary>
+        /// Rota un vector V según esta rotación (Q).
+        /// Fórmula: V' = Q * V * Q_inv
+        /// </summary>
+        public VectorUtils3D RotateVector(VectorUtils3D v)
+        {
+            // Convertir el vector a un Quaternion puro
+            QuaternionUtils vecQ = new QuaternionUtils(0, v.x, v.y, v.z);
+
+            // Operación: (this * vecQ) * inverse(this)
+
+            
+            //Creamos una copia 'temp' porque el método Multiply modifica el objeto sobre el que se llama, y no queremos cambiar esta rotación.
+            QuaternionUtils temp = new QuaternionUtils(this);
+
+            // Multiplicamos la copia por el vector
+            temp.Multiply(vecQ);
+
+        
+            
+            QuaternionUtils result = temp.MultiplyWithInverse(this);
+
+            // Retornamos la parte vectorial del resultado
+            return new VectorUtils3D(result.i, result.j, result.k);
+        }
+
         public string ToString()
         {
             return "(i:" + i + ", j:" + j + ", k:" + k + ", w:" + w + ")";
