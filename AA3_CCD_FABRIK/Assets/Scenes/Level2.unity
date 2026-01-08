@@ -1111,6 +1111,10 @@ MonoBehaviour:
   button: {fileID: 1608791097}
   pressedButtonOffset: 0.25
   pressSpeed: 10
+  pressed: 0
+  unpressedMaterial: {fileID: 0}
+  pressedMaterial: {fileID: 0}
+  buttonMaterial: {fileID: 0}
 --- !u!65 &714531122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1737,6 +1741,10 @@ MonoBehaviour:
   button: {fileID: 798856733}
   pressedButtonOffset: 0.25
   pressSpeed: 10
+  pressed: 0
+  unpressedMaterial: {fileID: 0}
+  pressedMaterial: {fileID: 0}
+  buttonMaterial: {fileID: 0}
 --- !u!65 &840926556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2721,6 +2729,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8572588819743122052, guid: 9a864cbd99e18334fa2d057da43f21ca, type: 3}
+      propertyPath: baseSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8823253420030167543, guid: 9a864cbd99e18334fa2d057da43f21ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.1
@@ -3447,6 +3459,10 @@ MonoBehaviour:
   button: {fileID: 970143500}
   pressedButtonOffset: 0.25
   pressSpeed: 10
+  pressed: 0
+  unpressedMaterial: {fileID: 0}
+  pressedMaterial: {fileID: 0}
+  buttonMaterial: {fileID: 0}
 --- !u!65 &1931529427
 BoxCollider:
   m_ObjectHideFlags: 0

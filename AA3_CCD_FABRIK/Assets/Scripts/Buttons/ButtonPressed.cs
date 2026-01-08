@@ -6,10 +6,14 @@ public class ButtonPressed : MonoBehaviour
     public float pressedButtonOffset = 0.25f;
     public float pressSpeed = 10f;
 
-    private bool pressed = false;
+    public bool pressed = false;
     private bool pressedAtLeastOnce = false;
     private VectorUtils3D startLocalPos;
     private VectorUtils3D pressedLocalPos;
+
+    [SerializeField] Material unpressedMaterial;
+    [SerializeField] Material pressedMaterial;
+    [SerializeField] private MeshRenderer buttonMaterial;
 
     void Start()
     {
@@ -29,6 +33,18 @@ public class ButtonPressed : MonoBehaviour
         VectorUtils3D newPos = VectorUtils3D.LERP(currentPos, targetPos, Time.deltaTime * pressSpeed);
 
         button.localPosition = newPos.GetAsUnityVector();
+
+        if(buttonMaterial != null)
+        {
+            if(pressed)
+            {
+                buttonMaterial.material = pressedMaterial;
+            }
+            else
+            {
+                buttonMaterial.material = unpressedMaterial;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
