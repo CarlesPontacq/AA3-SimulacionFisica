@@ -78,6 +78,9 @@ public class FABRIKSolver : MonoBehaviour
         {
             float dist = links[i - 1];
             float currentDist = VectorUtils3D.Distance(joints[i - 1], joints[i]);
+
+            if (currentDist == null || currentDist == 0f) currentDist = .0000000000001f;
+
             float lambda = dist / currentDist;
 
             VectorUtils3D dir = joints[i - 1] - joints[i];

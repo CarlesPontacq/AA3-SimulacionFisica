@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // Asegúrate de que detecta tu librería, si está en namespace pon: using QuaternionUtility; 
 // Si no tiene namespace, no hace falta.
 
@@ -23,6 +24,9 @@ public class MissionController : MonoBehaviour
 
     private int currentIndex = 0;
     private bool isMissionComplete = false;
+
+    [Header("Scene")]
+    public string sceneName;
 
     void Start()
     {
@@ -89,6 +93,8 @@ public class MissionController : MonoBehaviour
 
             Renderer rend = objectives[currentIndex].GetComponent<Renderer>();
             if (rend != null) rend.material.color = inactiveColor;
+
+            SceneManager.LoadScene(sceneName);
 
             // Al acabar, forzamos que el destino sea el jugador (se actualizará en el Update)
             // No hace falta poner ikTarget.position = player.position aquí porque el Update lo hará suavemente.

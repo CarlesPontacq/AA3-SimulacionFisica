@@ -4,7 +4,7 @@ public class ObjectiveTrigger : MonoBehaviour
 {
     [Header("Configuración")]
     public MissionController missionController; 
-    string endEffectorTag = "EndEffector"; 
+    string endEffectorTag = "endEffector"; 
 
     private bool hasBeenHacked = false;
 
