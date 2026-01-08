@@ -7,6 +7,7 @@ public class ButtonPressed : MonoBehaviour
     public float pressSpeed = 10f;
 
     private bool pressed = false;
+    private bool pressedAtLeastOnce = false;
     private VectorUtils3D startLocalPos;
     private VectorUtils3D pressedLocalPos;
 
@@ -33,12 +34,20 @@ public class ButtonPressed : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("endEffector"))
+        {
             pressed = true;
+            pressedAtLeastOnce = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("endEffector"))
             pressed = false;
+    }
+
+    public bool GotPressedAtLeastOnce()
+    {
+        return pressedAtLeastOnce;
     }
 }
