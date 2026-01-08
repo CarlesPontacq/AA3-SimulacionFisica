@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using QuaternionUtility;
 
-public class CCDSolver : MonoBehaviour
+public class CCDSolver : MonoBehaviour, IIKSolverDebug
 {
     [Header("Configuración")]
     public Transform rootObject;      
@@ -15,6 +15,11 @@ public class CCDSolver : MonoBehaviour
     public int iterations = 10;
     [Range(0.001f, 1f)]
     public float tolerance = 0.05f;
+
+    [Header("Variables de Depuración")]
+    public int LastFrameIterations { get; private set; }
+    public float CurrentDistanceToTarget { get; private set; }
+    public string AlgorithmName => "CCD";
 
     private class VirtualBone
     {
@@ -85,16 +90,23 @@ public class CCDSolver : MonoBehaviour
 
         VectorUtils3D targetPos = VectorUtils3D.ToVectorUtils3D(targetObject.position);
 
+        LastFrameIterations = 0;
+
         // Bucle de Iteraciones
         for (int iter = 0; iter < iterations; iter++)
         {
             //asegurar que las posiciones están actualizadas (Cinemática Directa)
-            
+            LastFrameIterations++; //<- Depuración
+
+
             UpdateForwardKinematics();
 
             //Comprobar si ya llegamos
             VectorUtils3D endEffectorPos = virtualBones[virtualBones.Count - 1].position;
-            if (VectorUtils3D.Distance(endEffectorPos, targetPos) < tolerance)
+
+            float dist = VectorUtils3D.Distance(endEffectorPos, targetPos);
+
+            if (dist < tolerance)
             {
                 break;
             }
@@ -152,6 +164,9 @@ public class CCDSolver : MonoBehaviour
 
         // pasada de FK para asegurar que las posiciones finales son coherentes con las rotaciones
         UpdateForwardKinematics();
+
+        VectorUtils3D finalEnd = virtualBones[virtualBones.Count - 1].position;
+        CurrentDistanceToTarget = VectorUtils3D.Distance(finalEnd, targetPos);
     }
 
     /// <summary>

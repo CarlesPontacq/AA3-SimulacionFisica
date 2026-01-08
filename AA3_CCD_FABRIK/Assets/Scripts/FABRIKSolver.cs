@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using QuaternionUtility;
 
-public class FABRIKSolver : MonoBehaviour
+public class FABRIKSolver : MonoBehaviour, IIKSolverDebug
 {
     [SerializeField] private List<Transform> jointTransforms;
     [SerializeField] private Transform targetTransform;
@@ -17,6 +17,10 @@ public class FABRIKSolver : MonoBehaviour
     private VectorUtils3D target;
 
     private VectorUtils3D positionOffset;
+
+    public string AlgorithmName => "FABRIK";
+    public int LastFrameIterations { get; private set; }
+    public float CurrentDistanceToTarget { get; private set; }
 
     void Start()
     {
@@ -36,6 +40,8 @@ public class FABRIKSolver : MonoBehaviour
     {
         UpdateTargetPosition();
 
+        LastFrameIterations = 0;
+
         bool targetReached = VectorUtils3D.Distance(joints[joints.Count - 1], target) < tolerance;
         bool rootMoved = VectorUtils3D.Distance(rootPosition, previousRootPosition) > 0.0001f;
 
@@ -45,6 +51,8 @@ public class FABRIKSolver : MonoBehaviour
             BackwardSolve();
             UpdateUnityTransforms();
         }
+
+        CurrentDistanceToTarget = VectorUtils3D.Distance(joints[joints.Count - 1], target);
 
         previousRootPosition = rootPosition;
     }
@@ -67,6 +75,8 @@ public class FABRIKSolver : MonoBehaviour
 
             VectorUtils3D dir = joints[i + 1] - joints[i];
             joints[i] = joints[i] + dir * (1f - lambda);
+
+            LastFrameIterations++; //<- depuracion
         }
     }
 
@@ -85,6 +95,8 @@ public class FABRIKSolver : MonoBehaviour
 
             VectorUtils3D dir = joints[i - 1] - joints[i];
             joints[i] = joints[i] + dir * (1f - lambda);
+
+            LastFrameIterations++; //<- depuracion
         }
     }
 
