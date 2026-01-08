@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public float speed = 5f;
+    public float baseSpeed = 5f;
+    private float speed;
 
     private Rigidbody body;
 
     void Start()
     {
         body = GetComponent<Rigidbody>();
+        speed = baseSpeed;
     }
 
     void Update()
@@ -19,6 +21,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Q)) y = -1f;
         if (Input.GetKey(KeyCode.E)) y = 1f;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            speed = baseSpeed * 2f;
+        else
+            speed = baseSpeed;
 
         VectorUtils3D rightVector = new VectorUtils3D();
         VectorUtils3D forwardVector = new VectorUtils3D();
