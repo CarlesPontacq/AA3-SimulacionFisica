@@ -1,10 +1,13 @@
 using UnityEngine;
 using QuaternionUtility;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class FABRIKArmController : MonoBehaviour
 {
     [SerializeField] private FABRIKSolver solver;
-
+    [SerializeField] private List<Transform> buttons;
+    [SerializeField] private Transform defaultTarget;
     void Awake()
     {
         VectorUtils3D playerPos = VectorUtils3D.ToVectorUtils3D(transform.position);
@@ -14,6 +17,7 @@ public class FABRIKArmController : MonoBehaviour
         VectorUtils3D localOffset = armPos - playerPos;
 
         solver.SetLocalOffset(localOffset);
+        solver.SetTarget(defaultTarget);
     }
 
     void Update()

@@ -144,4 +144,10 @@ public class FABRIKSolver : MonoBehaviour
         rootPosition = playerPos + rotatedOffset;
         joints[0] = rootPosition;
     }
+
+    public void SetTarget(Transform newTarget)
+    {
+        targetTransform = newTarget;
+        UpdateTargetPosition();
+    }
 }
